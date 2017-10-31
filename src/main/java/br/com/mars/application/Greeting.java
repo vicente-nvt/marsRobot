@@ -1,4 +1,4 @@
-package br.com.mars;
+package br.com.mars.application;
 
 public class Greeting {
 	 

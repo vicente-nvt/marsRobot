@@ -1,4 +1,4 @@
-package br.com.mars.test.plataforma;
+package br.com.mars.test.planalto;
 
 import static org.junit.Assert.assertEquals;
 

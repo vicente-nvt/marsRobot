@@ -1,4 +1,4 @@
-package br.com.mars.test.sonda;
+package br.com.mars.test.robo;
 
 import static org.junit.Assert.*;
 

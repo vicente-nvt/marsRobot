@@ -1,4 +1,4 @@
-package br.com.mars.test.sonda;
+package br.com.mars.test.robo;
 
 import static org.junit.Assert.*;
 
@@ -10,7 +10,7 @@ import br.com.mars.entities.planalto.IPlanalto;
 import br.com.mars.entities.planalto.PlanaltoRetangular;
 import br.com.mars.entities.robo.Robo;
 
-public class TestGirarRoboParaEsquerda {
+public class TestGirarRoboParaDireita {
 
 	Robo robo;
 	IPlanalto planalto;
@@ -27,11 +27,11 @@ public class TestGirarRoboParaEsquerda {
 		
 		robo.setDirecao(Direcao.NORTH);
 		
-		novaDirecao = robo.getDirecao().getRegra().getPosicaoDaEsquerda();		
+		novaDirecao = robo.getDirecao().getRegra().getPosicaoDaDireita();		
 		
 		robo.setDirecao(novaDirecao);
 		
-		assertEquals(robo.getDirecao(),Direcao.WEST);		
+		assertEquals(robo.getDirecao(),Direcao.EAST);		
 	}
 	
 	@Test
@@ -39,11 +39,11 @@ public class TestGirarRoboParaEsquerda {
 		
 		robo.setDirecao(Direcao.EAST);
 				
-		novaDirecao = robo.getDirecao().getRegra().getPosicaoDaEsquerda();		
+		novaDirecao = robo.getDirecao().getRegra().getPosicaoDaDireita();		
 		
 		robo.setDirecao(novaDirecao);
 		
-		assertEquals(robo.getDirecao(),Direcao.NORTH);				
+		assertEquals(robo.getDirecao(),Direcao.SOUTH);				
 	}
 	
 	@Test
@@ -51,11 +51,11 @@ public class TestGirarRoboParaEsquerda {
 		
 		robo.setDirecao(Direcao.SOUTH);
 				
-		novaDirecao = robo.getDirecao().getRegra().getPosicaoDaEsquerda();		
+		novaDirecao = robo.getDirecao().getRegra().getPosicaoDaDireita();		
 		
 		robo.setDirecao(novaDirecao);
 		
-		assertEquals(robo.getDirecao(),Direcao.EAST);				
+		assertEquals(robo.getDirecao(),Direcao.WEST);				
 	}
 	
 	@Test
@@ -63,11 +63,11 @@ public class TestGirarRoboParaEsquerda {
 		
 		robo.setDirecao(Direcao.WEST);
 				
-		novaDirecao = robo.getDirecao().getRegra().getPosicaoDaEsquerda();		
+		novaDirecao = robo.getDirecao().getRegra().getPosicaoDaDireita();		
 		
 		robo.setDirecao(novaDirecao);
 		
-		assertEquals(robo.getDirecao(),Direcao.SOUTH);				
+		assertEquals(robo.getDirecao(),Direcao.NORTH);				
 	}
 
 }

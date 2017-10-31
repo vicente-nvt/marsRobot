@@ -8,21 +8,25 @@ import br.com.mars.entities.robo.Robo;
 public class ImplantacaoDeRobos {
 
 	IPlanalto planaltoImplantacao;
+	boolean falhaNaImplantacao;
+	String retornoFalha;
 	
 	public String implantarEMoverRobo (String planalto, String posicaoRobo, String comandosRobo){
+		
+		retornoFalha = "";
 		
 		ValidacaoDeEntradas validacao;	
 			
 		validacao = new ValidacaoDeEntradas(planalto, posicaoRobo, comandosRobo);
 		
 		if (!validacao.validarDimensaoDoPlanalto()) 
-			return "E000";
+			retornoFalha += "E000";
 		
 		if (!validacao.validarPosicaoDaRobo())
-			return "E001";
+			retornoFalha += "E001";
 		
 		if (!validacao.validarMovimentoDaRobo())
-			return "E002";
+			retornoFalha += "E002";
 				
 		int xPlanalto = Integer.parseInt(planalto.split(",")[0]);
 		int yPlanalto = Integer.parseInt(planalto.split(",")[0]);		
@@ -38,10 +42,19 @@ public class ImplantacaoDeRobos {
 		MovimentarRobo movimento = new MovimentarRobo(novaRobo, comandosRobo);
 		
 		if (!movimento.movimentar())
-			return "E003";
+			retornoFalha += "E003";
+		
+		if (!retornoFalha.equals("")) {
+			falhaNaImplantacao = true;
+			return retornoFalha;
+		}
 								
 		return "("  + novaRobo.getX() + "," + novaRobo.getY() + "," + novaRobo.getDirecao().toString().charAt(0) + ")";	
-	}	
+	}
+	
+	public boolean getfalhaNaImplantacao(){
+		return this.falhaNaImplantacao;
+	}
 }
 		
 		

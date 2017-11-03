@@ -13,21 +13,32 @@ public class ImplantacaoDeRobos {
 	
 	public String implantarEMoverRobo (String planalto, String posicaoRobo, String comandosRobo){
 		
-		retornoFalha = "";
-		
-		ValidacaoDeEntradas validacao;	
-			
-		validacao = new ValidacaoDeEntradas(planalto, posicaoRobo, comandosRobo);
-		
-		if (!validacao.validarDimensaoDoPlanalto()) 
-			retornoFalha += "E000";
-		
-		if (!validacao.validarPosicaoDaRobo())
-			retornoFalha += "E001";
-		
-		if (!validacao.validarMovimentoDaRobo())
-			retornoFalha += "E002";
+		retornoFalha = validarEntradas(planalto, posicaoRobo, comandosRobo);
 				
+		Robo novoRobo = implantarRobo(planalto, posicaoRobo);
+		
+		retornoFalha += moverRobo(comandosRobo, novoRobo);
+		
+		if (!retornoFalha.isEmpty()) {
+			falhaNaImplantacao = true;
+			return retornoFalha;
+		}
+								
+		return "("  + novoRobo.getX() + "," + novoRobo.getY() + "," + novoRobo.getDirecao().toString().charAt(0) + ")";	
+	}
+
+	private String moverRobo(String comandosRobo, Robo novoRobo) {
+		
+		MovimentarRobo movimento = new MovimentarRobo(novoRobo, comandosRobo);
+		
+		if (!movimento.movimentar())
+			return "E003";
+		
+		return "";
+	}
+
+	private Robo implantarRobo(String planalto, String posicaoRobo) {
+		
 		int xPlanalto = Integer.parseInt(planalto.split(",")[0]);
 		int yPlanalto = Integer.parseInt(planalto.split(",")[0]);		
 		
@@ -36,20 +47,26 @@ public class ImplantacaoDeRobos {
 		int xRobo = Integer.parseInt(posicaoRobo.split(",")[0]);
 		int yRobo = Integer.parseInt(posicaoRobo.split(",")[1]);
 		Direcao direcaoRobo = new MapaDeDirecao().getDirecao(posicaoRobo.split(",")[2]);		
+				
+		return new Robo(planaltoImplantacao, xRobo, yRobo, direcaoRobo);
+	}
+
+	private String validarEntradas(String planalto, String posicaoRobo, String comandosRobo) {
 		
-		Robo novaRobo = new Robo(planaltoImplantacao, xRobo, yRobo, direcaoRobo);
+		String mensagemRetorno = "";
 		
-		MovimentarRobo movimento = new MovimentarRobo(novaRobo, comandosRobo);
+		ValidacaoDeEntradas validacao = new ValidacaoDeEntradas(planalto, posicaoRobo, comandosRobo);;	
+					
+		if (!validacao.validarDimensaoDoPlanalto()) 
+			mensagemRetorno += "E000";
 		
-		if (!movimento.movimentar())
-			retornoFalha += "E003";
+		if (!validacao.validarPosicaoDoRobo())
+			mensagemRetorno += "E001";
 		
-		if (!retornoFalha.equals("")) {
-			falhaNaImplantacao = true;
-			return retornoFalha;
-		}
-								
-		return "("  + novaRobo.getX() + "," + novaRobo.getY() + "," + novaRobo.getDirecao().toString().charAt(0) + ")";	
+		if (!validacao.validarMovimentoDoRobo())
+			mensagemRetorno += "E002";
+		
+		return mensagemRetorno;
 	}
 	
 	public boolean getfalhaNaImplantacao(){

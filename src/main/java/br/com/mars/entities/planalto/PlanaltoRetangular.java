@@ -1,6 +1,5 @@
 package br.com.mars.entities.planalto;
 
-import br.com.mars.entities.direcao.Direcao;
 import br.com.mars.entities.robo.Robo;
 
 public class PlanaltoRetangular implements IPlanalto {
@@ -29,36 +28,55 @@ public class PlanaltoRetangular implements IPlanalto {
 	@Override
 	public boolean moverNoPlanalto(Robo robo) {
 		
-		if (robo.getDirecao() == Direcao.NORTH){
-			if (robo.getY() < this.getY())
-				robo.setY(robo.getY() + 1);
-			else
-				return false;
-			
-		}			
-		else if (robo.getDirecao() == Direcao.SOUTH){
-			if (robo.getY() > 0)
-				robo.setY(robo.getY() - 1);
-			else
-				return false;
-			
-		}			
-		else if (robo.getDirecao() == Direcao.EAST){
-			if (robo.getX() < this.getX())
-				robo.setX(robo.getX() + 1);
-			else
-				return false;
-		}			
-		else if (robo.getDirecao() == Direcao.WEST){
-			if (robo.getX() > 0)
-				robo.setX(robo.getX() - 1);
-			else
-				return false;			
-		}		
+		switch (robo.getDirecao()){
+			case NORTH:
+				return moveRoboParaNorth(robo);
+			case EAST:
+				return moveRoboParaEast(robo);
+			case SOUTH:
+				return moveRoboParaSouth(robo);
+			case WEST:
+				return moveRoboParaWest(robo);
+			default: return false;
+		}				
+	}
 		
-		return true;
+	private boolean moveRoboParaNorth (Robo robo){
+		if (robo.getY() < this.getY()){
+			robo.setY(robo.getY() + 1);
+			return true;
+		}
+
+		return false;		
 	}
 	
+	private boolean moveRoboParaSouth (Robo robo){
+		if (robo.getY() > 0){
+			robo.setY(robo.getY() - 1);
+			return true;
+		}
+
+		return false;
+	}
+	
+	private boolean moveRoboParaEast (Robo robo){
+		if (robo.getX() < this.getX()){
+			robo.setX(robo.getX() + 1);
+			return true;
+		}
+		
+		return false;		
+	}
+	
+	private boolean moveRoboParaWest (Robo robo){
+		if (robo.getX() > 0){
+			robo.setX(robo.getX() - 1);
+			return true;
+		}
+		
+		return false;
+	}
+		
 	public static boolean validarDimensoesPlanalto(int x, int y){
 		return x > 0 && y > 0;
 	}

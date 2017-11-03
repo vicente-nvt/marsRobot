@@ -10,7 +10,7 @@ import br.com.mars.entities.planalto.PlanaltoRetangular;
 public class TestPlanalto {
 	
 	@Test
-	public void testarAtribuicaoDimensaoPlataforma(){
+	public void testarAtribuicaoDimensaoPlanalto(){
 		
 		IPlanalto planalto = new PlanaltoRetangular(6,6);		
 		

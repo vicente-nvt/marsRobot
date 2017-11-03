@@ -11,16 +11,16 @@ import br.com.mars.entities.implantacao.IValidacaoDeEntradas;
 public class TestValidacaoDeEntradas {
 
 	private String comandoDeDimensaoDoPlanalto = "5,5";
-	private String comandoDePosicaoDaRobo = "0,0,N";
-	private String comandoDeMovimentoDaRobo = "MMRMMRMRRM";
+	private String comandoDePosicaoDoRobo = "0,0,N";
+	private String comandoDeMovimentoDoRobo = "MMRMMRMRRM";
 	
 	private IValidacaoDeEntradas validacaoEntrada;
 	
 	@Before
 	public void criarValidacaoDeRobo(){
 		validacaoEntrada = new ValidacaoDeEntradas(comandoDeDimensaoDoPlanalto, 
-												   comandoDePosicaoDaRobo, 
-												   comandoDeMovimentoDaRobo);
+												   comandoDePosicaoDoRobo, 
+												   comandoDeMovimentoDoRobo);
 
 	}
 	
@@ -30,16 +30,16 @@ public class TestValidacaoDeEntradas {
 	}
 	
 	@Test
-	public void validarComandoDePosicaoDaRobo(){
+	public void validarComandoDePosicaoDoRobo(){
 		assertTrue(validacaoEntrada.validarDimensaoDoPlanalto());
-		assertTrue(validacaoEntrada.validarPosicaoDaRobo());
+		assertTrue(validacaoEntrada.validarPosicaoDoRobo());
 	}
 	
 	@Test
-	public void validarComandoDeMovimentoDaRobo(){
+	public void validarComandoDeMovimentoDoRobo(){
 		assertTrue(validacaoEntrada.validarDimensaoDoPlanalto());
-		assertTrue(validacaoEntrada.validarPosicaoDaRobo());
-		assertTrue(validacaoEntrada.validarMovimentoDaRobo());
+		assertTrue(validacaoEntrada.validarPosicaoDoRobo());
+		assertTrue(validacaoEntrada.validarMovimentoDoRobo());
 		
 	}
 	

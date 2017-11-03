@@ -22,7 +22,7 @@ public class TestMovimentarRobo {
 	}
 	
 	@Test
-	public void testarMovimentoPrimeiraRobo(){
+	public void testarMovimentoPrimeiroRobo(){
 		
 		Robo robo = new Robo(planalto, 1, 2, Direcao.NORTH);
 		
@@ -38,7 +38,7 @@ public class TestMovimentarRobo {
 	}
 	
 	@Test
-	public void testarMovimentoSegundaRobo(){
+	public void testarMovimentoSegundoRobo(){
 		
 		Robo robo = new Robo(planalto, 3, 3, Direcao.EAST);
 		

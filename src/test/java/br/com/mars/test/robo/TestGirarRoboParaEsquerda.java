@@ -23,7 +23,7 @@ public class TestGirarRoboParaEsquerda {
 	}
 	
 	@Test
-	public void girarRoboParaDireitaTestPosicionadoNorth(){
+	public void girarRoboParaEsquerdaPosicionadoNorth(){
 		
 		robo.setDirecao(Direcao.NORTH);
 		
@@ -35,7 +35,7 @@ public class TestGirarRoboParaEsquerda {
 	}
 	
 	@Test
-	public void girarRoboParaDireitaPosicionadoEast(){
+	public void girarRoboParaEsquerdaPosicionadoEast(){
 		
 		robo.setDirecao(Direcao.EAST);
 				
@@ -47,7 +47,7 @@ public class TestGirarRoboParaEsquerda {
 	}
 	
 	@Test
-	public void girarRoboParaDireitaPosicionadoSouth(){
+	public void girarRoboParaEsquerdaPosicionadoSouth(){
 		
 		robo.setDirecao(Direcao.SOUTH);
 				
@@ -59,7 +59,7 @@ public class TestGirarRoboParaEsquerda {
 	}
 	
 	@Test
-	public void girarRoboParaDireitaPosicionadoWest(){
+	public void girarRoboParaEsquerdaPosicionadoWest(){
 		
 		robo.setDirecao(Direcao.WEST);
 				

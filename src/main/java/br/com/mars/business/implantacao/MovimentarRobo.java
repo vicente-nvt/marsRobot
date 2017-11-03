@@ -14,15 +14,20 @@ public class MovimentarRobo {
 	
 	public boolean movimentar() {
 		
-		for (int i = 0; i < movimento.length(); i++){
+		char[] movimentos = this.movimento.toCharArray();
+		
+		for (char acao: movimentos){
 			
-			if (movimento.charAt(i) == 'L')
-				robo.setDirecao(robo.getDirecao().getRegra().getPosicaoDaEsquerda());
-			else if (movimento.charAt(i) == 'R')
-				robo.setDirecao(robo.getDirecao().getRegra().getPosicaoDaDireita());
-			else if (movimento.charAt(i) == 'M'){
-				if (!robo.getPlanalto().moverNoPlanalto(robo)) 
-					return false;					
+			switch (acao){
+				case 'L': 
+					robo.setDirecao(robo.getDirecao().getRegra().getPosicaoDaEsquerda());
+					break;
+				case 'R':
+					robo.setDirecao(robo.getDirecao().getRegra().getPosicaoDaDireita());
+					break;
+				case 'M':
+					if (!robo.getPlanalto().moverNoPlanalto(robo)) 
+						return false;					
 			}
 		}
 		return true;

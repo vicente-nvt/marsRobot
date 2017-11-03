@@ -13,7 +13,7 @@ public class TestPosicionarRobo {
 
 	
 	@Test
-	public void posicionarRoboNaPlataformaTest(){
+	public void posicionarRoboNoPlanalto(){
 				
 		IPlanalto planalto = new PlanaltoRetangular(5,5);
 		

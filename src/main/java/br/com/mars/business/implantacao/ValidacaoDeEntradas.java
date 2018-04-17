@@ -13,19 +13,21 @@ public class ValidacaoDeEntradas implements IValidacaoDeEntradas {
 	private int xRobo;
 	private int yRobo;	
 	
+	public ValidacaoDeEntradas(){};	
+	
 	public ValidacaoDeEntradas(String comandoDeDimensaoDoPlanalto,
 							 String comandoDePosicaoDoRobo,
 							 String comandoDeMovimentoDoRobo){
 		
-		this.comandoDeDimensaoDoPlanalto = comandoDeDimensaoDoPlanalto;
-		this.comandoDePosicaoDoRobo = comandoDePosicaoDoRobo;
-		this.comandoDeMovimentoDoRobo = comandoDeMovimentoDoRobo;
+		this.setComandoDeDimensaoDoPlanalto(comandoDeDimensaoDoPlanalto);
+		this.setComandoDePosicaoDoRobo(comandoDePosicaoDoRobo);
+		this.setComandoDeMovimentoDoRobo(comandoDeMovimentoDoRobo);
 	}
 	
 	@Override
 	public boolean validarDimensaoDoPlanalto() {
 		
-		String[] dimensoes = comandoDeDimensaoDoPlanalto.split(",");
+		String[] dimensoes = getComandoDeDimensaoDoPlanalto().split(",");
 		
 		if (dimensoes.length != 2)  
 			return false;
@@ -44,7 +46,7 @@ public class ValidacaoDeEntradas implements IValidacaoDeEntradas {
 	@Override
 	public boolean validarPosicaoDoRobo() {
 		
-		String[] posicaoDoRobo = comandoDePosicaoDoRobo.split(",");
+		String[] posicaoDoRobo = getComandoDePosicaoDoRobo().split(",");
 		
 		if (posicaoDoRobo.length != 3)
 			return false;
@@ -65,8 +67,37 @@ public class ValidacaoDeEntradas implements IValidacaoDeEntradas {
 	@Override
 	public boolean validarMovimentoDoRobo() {
 		
-		return comandoDeMovimentoDoRobo.matches("[RLM]+");		
+		return getComandoDeMovimentoDoRobo().matches("[RLM]+");		
 		
+	}
+	
+	public String getComandoDeDimensaoDoPlanalto() {
+		return comandoDeDimensaoDoPlanalto;
+	}
+
+	public void setComandoDeDimensaoDoPlanalto(String comandoDeDimensaoDoPlanalto) {
+		this.comandoDeDimensaoDoPlanalto = comandoDeDimensaoDoPlanalto;
+	}
+
+	public String getComandoDePosicaoDoRobo() {
+		return comandoDePosicaoDoRobo;
+	}
+
+	public void setComandoDePosicaoDoRobo(String comandoDePosicaoDoRobo) {
+		this.comandoDePosicaoDoRobo = comandoDePosicaoDoRobo;
+	}
+
+	public String getComandoDeMovimentoDoRobo() {
+		return comandoDeMovimentoDoRobo;
+	}
+
+	public void setComandoDeMovimentoDoRobo(String comandoDeMovimentoDoRobo) {
+		this.comandoDeMovimentoDoRobo = comandoDeMovimentoDoRobo;
+	}
+
+	public void setDimensaoDoPlanalto(int x, int y) {
+		xPlanalto = x;
+		yPlanalto = y;		
 	}
 
 }

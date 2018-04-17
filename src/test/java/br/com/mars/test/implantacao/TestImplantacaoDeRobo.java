@@ -5,82 +5,97 @@ import static org.junit.Assert.assertEquals;
 import org.junit.Test;
 
 import br.com.mars.business.implantacao.ImplantacaoDeRobos;
+import br.com.mars.business.implantacao.InstrucaoDeMovimentacaoPlanaltoRetangular;
+import br.com.mars.entities.implantacao.IInstrucaoDeMovimentacao;
+import br.com.mars.entities.planalto.IPlanalto;
+import br.com.mars.entities.planalto.PlanaltoRetangular;
 
 public class TestImplantacaoDeRobo {
 		
 	@Test
 	public void implantarRoboMovimentoEsquerda(){
-		
-		String planalto = "5,5";
+						
+		IPlanalto planalto = new PlanaltoRetangular(5, 5);
+		IInstrucaoDeMovimentacao instrucao = new InstrucaoDeMovimentacaoPlanaltoRetangular(planalto);		
+				
 		String posicaoRobo = "1,2,N";
-		String comandosRobo = "LMLMLMLMM";
+		String comandosRobo = "LMLMLMLMM";		
 		
-		ImplantacaoDeRobos implantacao = new ImplantacaoDeRobos();
+		ImplantacaoDeRobos implantacao = new ImplantacaoDeRobos(instrucao, posicaoRobo);		
 		
-		assertEquals(implantacao.implantarEMoverRobo(planalto, posicaoRobo, comandosRobo),"(1,3,N)");
+		assertEquals(implantacao.movimentarRobo(comandosRobo),"(1,3,N)");
 	}
 
 	@Test
 	public void implantarRoboMovimentoDireita(){
+
+		IPlanalto planalto = new PlanaltoRetangular(6, 6);
+		IInstrucaoDeMovimentacao instrucao = new InstrucaoDeMovimentacaoPlanaltoRetangular(planalto);		
 		
-		String planalto = "6,6";
 		String posicaoRobo = "3,3,E";
 		String comandosRobo = "MMRMMRMRRM";
 		
-		ImplantacaoDeRobos implantacao = new ImplantacaoDeRobos();
+		ImplantacaoDeRobos implantacao = new ImplantacaoDeRobos(instrucao, posicaoRobo);		
 		
-		assertEquals(implantacao.implantarEMoverRobo(planalto, posicaoRobo, comandosRobo),"(5,1,E)");
+		assertEquals(implantacao.movimentarRobo(comandosRobo),"(5,1,E)");
 	}
 	
 	@Test 
 	public void implantarRoboRotacaoParaDireita(){
-
-		String planalto = "5,5";
+		
+		IPlanalto planalto = new PlanaltoRetangular(5, 5);
+		IInstrucaoDeMovimentacao instrucao = new InstrucaoDeMovimentacaoPlanaltoRetangular(planalto);		
+		
 		String posicaoRobo = "0,0,N";
 		String comandosRobo = "MMRMMRMM";
+
+		ImplantacaoDeRobos implantacao = new ImplantacaoDeRobos(instrucao, posicaoRobo);
 		
-		ImplantacaoDeRobos implantacao = new ImplantacaoDeRobos();
-		
-		assertEquals(implantacao.implantarEMoverRobo(planalto, posicaoRobo, comandosRobo),"(2,0,S)");
+		assertEquals(implantacao.movimentarRobo(comandosRobo),"(2,0,S)");
 		
 	}
 
 	@Test 
 	public void implantarRoboRotacaoParaEsquerda(){
 
-		String planalto = "5,5";
+		IPlanalto planalto = new PlanaltoRetangular(5, 5);
+		IInstrucaoDeMovimentacao instrucao = new InstrucaoDeMovimentacaoPlanaltoRetangular(planalto);		
+		
 		String posicaoRobo = "0,0,N";
 		String comandosRobo = "MML";
 		
-		ImplantacaoDeRobos implantacao = new ImplantacaoDeRobos();
+		ImplantacaoDeRobos implantacao = new ImplantacaoDeRobos(instrucao, posicaoRobo);
 		
-		assertEquals(implantacao.implantarEMoverRobo(planalto, posicaoRobo, comandosRobo),"(0,2,W)");
+		assertEquals(implantacao.movimentarRobo(comandosRobo),"(0,2,W)");
 		
 	}	
 	
-	@Test 
+	@Test (expected = RuntimeException.class)
 	public void implantarRoboComandoInvalido(){
 
-		String planalto = "5,5";
+		IPlanalto planalto = new PlanaltoRetangular(5, 5);
+		IInstrucaoDeMovimentacao instrucao = new InstrucaoDeMovimentacaoPlanaltoRetangular(planalto);		
+
 		String posicaoRobo = "0,0,N";
 		String comandosRobo = "AAA";
 		
-		ImplantacaoDeRobos implantacao = new ImplantacaoDeRobos();
+		ImplantacaoDeRobos implantacao = new ImplantacaoDeRobos(instrucao, posicaoRobo);
 		
-		assertEquals(implantacao.implantarEMoverRobo(planalto, posicaoRobo, comandosRobo),"E002");
-		
+		implantacao.movimentarRobo(comandosRobo);		
 	}	
 	
-	@Test
+	@Test (expected = RuntimeException.class)
 	public void implantarRoboComMovimentoAlemDoLimite(){
 
-		String planalto = "5,5";
+		IPlanalto planalto = new PlanaltoRetangular(5, 5);
+		IInstrucaoDeMovimentacao instrucao = new InstrucaoDeMovimentacaoPlanaltoRetangular(planalto);		
+		
 		String posicaoRobo = "0,0,N";
 		String comandosRobo = "MMMMMMMMMMMMMMMMMMMMMMMM";
 	
-		ImplantacaoDeRobos implantacao = new ImplantacaoDeRobos();
+		ImplantacaoDeRobos implantacao = new ImplantacaoDeRobos(instrucao, posicaoRobo);
 		
-		assertEquals(implantacao.implantarEMoverRobo(planalto, posicaoRobo, comandosRobo),"E003");
+		implantacao.movimentarRobo(comandosRobo);
 		
 	}
 	

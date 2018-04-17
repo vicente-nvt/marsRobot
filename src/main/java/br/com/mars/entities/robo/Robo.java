@@ -1,20 +1,20 @@
 package br.com.mars.entities.robo;
 
 import br.com.mars.entities.direcao.Direcao;
-import br.com.mars.entities.planalto.IPlanalto;
+import br.com.mars.entities.implantacao.IInstrucaoDeMovimentacao;
 
 public class Robo {
 
 	private int x;
 	private int y;
 	private Direcao direcao;
-	private IPlanalto planalto;
+	IInstrucaoDeMovimentacao instrucao;
 	
-	public Robo (IPlanalto planalto, int posicaoInicialEmX, int posicaoInicialEmY, Direcao direcao){
-		this.planalto = planalto;
-		this.x = posicaoInicialEmX;
-		this.y = posicaoInicialEmY;
-		this.direcao = direcao;
+	public Robo (IInstrucaoDeMovimentacao instrucao, int posicaoInicialEmX, int posicaoInicialEmY, Direcao direcao){
+		this.instrucao = instrucao;
+		setX(posicaoInicialEmX);
+		setY(posicaoInicialEmY);
+		setDirecao(direcao);
 	}
 	
 	public int getX() {
@@ -41,15 +41,56 @@ public class Robo {
 		this.direcao = direcao;
 	}
 
-	public IPlanalto getPlanalto() {
-		return planalto;
-	}	
-	
 	public boolean equals (Robo robo){
 		return robo.getX() == this.getX() &&
-			   robo.getY() == this.getY() &&
-			   robo.getPlanalto() == this.getPlanalto() &&
+			   robo.getY() == this.getY() &&			 
 			   robo.getDirecao() == this.getDirecao();
+	}
+
+	public void virarParaEsquerda() {
+		setDirecao(this.getDirecao().getRegra().getPosicaoDaEsquerda());		
+	}
+
+	public void virarParaDireita() {
+		setDirecao(this.getDirecao().getRegra().getPosicaoDaDireita());		
+	}
+
+	public String getPosicaoAposMovimentar() {		
+		return "("  + this.getX() + "," + this.getY() + "," + this.getDirecao().toString().charAt(0) + ")";
+	}
+
+	public boolean moverNoPlanalto() {		
+		
+		boolean moveu = instrucao.moverNoPlanalto(direcao, getX(), getY());
+		
+		atualizaPosicaoDoRoboAposMover();
+		
+		return moveu;		
+	}
+
+	private void atualizaPosicaoDoRoboAposMover() {
+		setX(instrucao.getX());
+		setY(instrucao.getY());
+	}
+
+	public boolean executarComandos(String comandosMovimento) {
+		char[] listaComandos = comandosMovimento.toCharArray();
+		
+		for (char acao: listaComandos){
+			
+			switch (acao){
+				case 'L': 
+					virarParaEsquerda();
+					break;
+				case 'R':
+					virarParaDireita();
+					break;
+				case 'M':
+					if (!moverNoPlanalto()) 
+						return false;					
+			}
+		}
+		return true;	
 	}
 }
 

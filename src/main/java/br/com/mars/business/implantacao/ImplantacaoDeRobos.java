@@ -1,77 +1,59 @@
 package br.com.mars.business.implantacao;
 
-import br.com.mars.entities.direcao.Direcao;
+import br.com.mars.entities.implantacao.IInstrucaoDeMovimentacao;
+import br.com.mars.entities.implantacao.IValidacaoDeEntradas;
 import br.com.mars.entities.planalto.IPlanalto;
-import br.com.mars.entities.planalto.PlanaltoRetangular;
 import br.com.mars.entities.robo.Robo;
 
 public class ImplantacaoDeRobos {
 
+	IValidacaoDeEntradas validacao;
 	IPlanalto planaltoImplantacao;
-	boolean falhaNaImplantacao;
-	String retornoFalha;
+	Robo novoRobo;
 	
-	public String implantarEMoverRobo (String planalto, String posicaoRobo, String comandosRobo){
-		
-		retornoFalha = validarEntradas(planalto, posicaoRobo, comandosRobo);
+	public ImplantacaoDeRobos(IInstrucaoDeMovimentacao instrucao, String posicaoRobo) {
 				
-		Robo novoRobo = implantarRobo(planalto, posicaoRobo);
-		
-		retornoFalha += moverRobo(comandosRobo, novoRobo);
-		
-		if (!retornoFalha.isEmpty()) {
-			falhaNaImplantacao = true;
-			return retornoFalha;
-		}
-								
-		return "("  + novoRobo.getX() + "," + novoRobo.getY() + "," + novoRobo.getDirecao().toString().charAt(0) + ")";	
-	}
-
-	private String moverRobo(String comandosRobo, Robo novoRobo) {
-		
-		MovimentarRobo movimento = new MovimentarRobo(novoRobo, comandosRobo);
-		
-		if (!movimento.movimentar())
-			return "E003";
-		
-		return "";
-	}
-
-	private Robo implantarRobo(String planalto, String posicaoRobo) {
-		
-		int xPlanalto = Integer.parseInt(planalto.split(",")[0]);
-		int yPlanalto = Integer.parseInt(planalto.split(",")[0]);		
-		
-		planaltoImplantacao = new PlanaltoRetangular(xPlanalto, yPlanalto);
-		
-		int xRobo = Integer.parseInt(posicaoRobo.split(",")[0]);
-		int yRobo = Integer.parseInt(posicaoRobo.split(",")[1]);
-		Direcao direcaoRobo = new MapaDeDirecao().getDirecao(posicaoRobo.split(",")[2]);		
+		validacao = new ValidacaoDeEntradas();
 				
-		return new Robo(planaltoImplantacao, xRobo, yRobo, direcaoRobo);
+		validarPosicaoDoRobo(posicaoRobo, instrucao.getPlanalto());
+				
+		novoRobo = new Robo(instrucao, 
+							Integer.parseInt(posicaoRobo.split(",")[0]), //Posição inicial em X
+							Integer.parseInt(posicaoRobo.split(",")[1]), //Posição inicial em Y
+							new MapaDeDirecao().getDirecao(posicaoRobo.split(",")[2])); //Direção inicial 
 	}
 
-	private String validarEntradas(String planalto, String posicaoRobo, String comandosRobo) {
+	public String movimentarRobo(String comandosRobo) {
 		
-		String mensagemRetorno = "";
+		validarMovimentoDoRobo(comandosRobo);			
 		
-		ValidacaoDeEntradas validacao = new ValidacaoDeEntradas(planalto, posicaoRobo, comandosRobo);;	
-					
-		if (!validacao.validarDimensaoDoPlanalto()) 
-			mensagemRetorno += "E000";
+		if (!novoRobo.executarComandos(comandosRobo))
+			throw new RuntimeException();
+		
+		return this.novoRobo.getPosicaoAposMovimentar();
+	}
+	
+	private boolean validarPosicaoDoRobo(String posicaoRobo, IPlanalto planalto){
+
+		validacao.setDimensaoDoPlanalto(planalto.getX(), planalto.getY());
+		validacao.setComandoDePosicaoDoRobo(posicaoRobo);		
 		
 		if (!validacao.validarPosicaoDoRobo())
-			mensagemRetorno += "E001";
-		
-		if (!validacao.validarMovimentoDoRobo())
-			mensagemRetorno += "E002";
-		
-		return mensagemRetorno;
+			throw new RuntimeException();
+
+		return true;
 	}
 	
-	public boolean getfalhaNaImplantacao(){
-		return this.falhaNaImplantacao;
+	private boolean validarMovimentoDoRobo(String comandosRobo){
+
+		validacao.setComandoDeMovimentoDoRobo(comandosRobo);
+		
+		if (!validacao.validarMovimentoDoRobo())
+			throw new IllegalArgumentException("Comandos inválidos");
+
+		return true;
 	}
+		
 }
 		
 		

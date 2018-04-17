@@ -1,8 +1,8 @@
 package br.com.mars.entities.planalto;
 
-import br.com.mars.entities.robo.Robo;
-
 public interface IPlanalto {
 	
-	public boolean moverNoPlanalto(Robo robo);	
+	public int getX();
+	public int getY();
+	public boolean validarDimensoesDoPlanalto(int x, int y);
 }
